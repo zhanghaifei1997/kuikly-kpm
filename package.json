@@ -1,10 +1,11 @@
 {
   "name": "kuikly-kpm",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Kuikly Package Manager — 一份清单，三端（Android / iOS / 鸿蒙）自动接线第三方组件",
   "type": "module",
   "bin": {
-    "kpm": "dist/cli.js"
+    "kpm": "dist/cli.js",
+    "kuikly-kpm": "dist/cli.js"
   },
   "main": "dist/cli.js",
   "engines": {
