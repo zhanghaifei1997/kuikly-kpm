@@ -1,16 +1,22 @@
 #!/usr/bin/env node
 /** kpm — Kuikly Package Manager CLI 入口（thin wrapper，逻辑在 actions.ts） */
 import { Command } from 'commander';
+import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { makeCtx, runAdd, runConfig, runDoctorAction, runInit, runInstall, runList, runRemove } from './actions.js';
 import { ResolveError } from './resolve.js';
+
+// 版本号以 package.json 为准（dist/cli.js 的上一级即包根）
+const pkgUrl = fileURLToPath(new URL('../package.json', import.meta.url));
+const pkgVersion = (JSON.parse(fs.readFileSync(pkgUrl, 'utf-8')) as { version: string }).version;
 
 const program = new Command();
 
 program
   .name('kpm')
   .description('Kuikly Package Manager — 一份清单，三端（Android/iOS/鸿蒙）自动接线第三方组件')
-  .version('0.1.0')
+  .version(pkgVersion)
   .option('-p, --path <dir>', '工程根目录（默认当前目录）')
   .option('--refresh', '忽略缓存重新拉取索引/元数据')
   .option('--offline', '仅使用本地缓存（缓存未命中则报错）');
