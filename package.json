@@ -1,0 +1,41 @@
+{
+  "name": "kuikly-kpm",
+  "version": "0.1.0",
+  "description": "Kuikly Package Manager — 一份清单，三端（Android / iOS / 鸿蒙）自动接线第三方组件",
+  "type": "module",
+  "bin": {
+    "kpm": "dist/cli.js"
+  },
+  "main": "dist/cli.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "dev": "tsx src/cli.ts"
+  },
+  "keywords": [
+    "kuikly",
+    "package-manager",
+    "kmp",
+    "kotlin-multiplatform",
+    "harmonyos",
+    "cocoapods",
+    "ohpm"
+  ],
+  "author": "zhanghaifei1997",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "json5": "^2.2.3",
+    "semver": "^7.6.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/semver": "^7.5.8",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}
