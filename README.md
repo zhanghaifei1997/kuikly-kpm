@@ -10,7 +10,12 @@
 Kuikly 官方组件市场只负责"发现"组件；接入一个多端组件要在 gradle、Podfile、oh-package.json5 里分别手工接线，还要粘贴注册代码。kpm 补上缺失的"安装"层：
 
 ```bash
-npx kuikly-kpm init                      # 探测工程结构与目标端，生成 kuikly.pkg.json
+# 方式一：GitHub 直跑（无需 npm 账号）
+npx github:zhanghaifei1997/kuikly-kpm init
+npx github:zhanghaifei1997/kuikly-kpm add kuikly-app-icon
+
+# 方式二：npm（发布后可用）
+npx kuikly-kpm init
 npx kuikly-kpm add kuikly-app-icon       # 解析坐标 → 预览 diff → 注入三端 → 更新 lock → 输出注册指引
 npx kuikly-kpm doctor                    # 校验接线完整性（含注册代码是否已粘贴）
 ```
