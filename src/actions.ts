@@ -23,6 +23,8 @@ import { buildSteps, renderStepsConsole, writePending } from './guide.js';
 import { renderDiff } from './diff.js';
 import { detectProject } from './detect.js';
 import { runDoctor } from './doctor.js';
+import { renderReport } from './audit/types.js';
+import { runAudit } from './audit/index.js';
 
 /** 解析工程内相对路径并校验不越出工程根目录（防路径穿越） */
 function resolveWithinRoot(root: string, rel: string): string {
@@ -333,4 +335,16 @@ export async function runDoctorAction(ctx: Ctx): Promise<boolean> {
   }
   process.stdout.write(ok ? '\ndoctor：无失败项\n' : '\ndoctor：存在失败项，请按提示处理\n');
   return ok;
+}
+
+/** kpm audit：工程发布前体检（--json 供 CI 消费；error 级发现返回 false） */
+export async function runAuditAction(ctx: Ctx, opts: { json?: boolean } = {}): Promise<boolean> {
+  const report = await runAudit(ctx.root);
+  if (opts.json) {
+    process.stdout.write(JSON.stringify(report, null, 2) + '\n');
+  } else {
+    process.stdout.write(`kpm audit — Kuikly 工程发布前体检\n\n`);
+    process.stdout.write(renderReport(report.performed, report.findings) + '\n');
+  }
+  return report.summary.ok;
 }

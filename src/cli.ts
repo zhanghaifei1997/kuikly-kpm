@@ -4,7 +4,7 @@ import { Command } from 'commander';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { makeCtx, runAdd, runConfig, runDoctorAction, runInit, runInstall, runList, runRemove } from './actions.js';
+import { makeCtx, runAdd, runAuditAction, runConfig, runDoctorAction, runInit, runInstall, runList, runRemove } from './actions.js';
 import { ResolveError } from './resolve.js';
 
 // 版本号以 package.json 为准（dist/cli.js 的上一级即包根）
@@ -79,6 +79,16 @@ program
   .action(async () => {
     const root = resolveRoot(program);
     const ok = await runDoctorAction(makeCtx(root, globalOpts(program)));
+    if (!ok) process.exitCode = 1;
+  });
+
+program
+  .command('audit')
+  .description('工程发布前体检：Android/iOS/鸿蒙安全配置、签名材料、硬编码密钥、资源与 kpm 一致性')
+  .option('--json', '以 JSON 输出（CI 集成用）')
+  .action(async (opts) => {
+    const root = resolveRoot(program);
+    const ok = await runAuditAction(makeCtx(root, globalOpts(program)), { json: opts.json });
     if (!ok) process.exitCode = 1;
   });
 

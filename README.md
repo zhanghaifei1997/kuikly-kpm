@@ -26,6 +26,7 @@ npx kuikly-kpm doctor                    # 校验接线完整性（含注册代�
 - **平台裁剪**：单端应用（纯 iOS / 纯鸿蒙）只注入/锁定/校验启用端
 - **幂等注入**：所有写入落在 `// kpm:begin <name>` … `// kpm:end <name>` 标记区间内，区间外一个字符不碰，`remove` 可完整卸载
 - **注册指引**：Module/View 注册代码与宿主预置配置（Manifest/plist/app.json5）不自动改源码，输出指引 + doctor 校验
+- **发布前体检（0.2.0，对标 flutter_auditor 适配三端）**：`kpm audit` 一条命令扫描 Android 安全配置（debuggable/allowBackup/cleartext/exported）、发布签名（debug 签名/硬编码密码/jks·p12·p7b 材料入库，含鸿蒙）、iOS 隐私声明与 ATS、硬编码密钥（云厂商 key 形态 + 赋值形态）、无用/超大资源、kpm 接线一致性；`--json` 供 CI，error 级发现退出码 1
 - **零侵入官方生态**：官方 `KuiklyUI-Libraries.json` 只读使用；组件坐标由组件仓库根的 `kuikly.component.json` 声明
 
 ### 组件侧接入（作者）
@@ -43,6 +44,7 @@ npx kuikly-kpm doctor                    # 校验接线完整性（含注册代�
 | `kpm list` | 列出依赖与各端坐标 |
 | `kpm config get/set <key> <value>` | 调整 `platforms.*` / `paths.*` |
 | `kpm doctor` | 接线完整性体检 |
+| `kpm audit` | 工程发布前体检：三端安全配置/签名材料/硬编码密钥/资源/kpm 一致性（`--json` 供 CI） |
 
 环境变量 `KPM_GITHUB_TOKEN`（可选）用于提升 GitHub API 匿名限额（元数据 commit sha 查询）。
 
